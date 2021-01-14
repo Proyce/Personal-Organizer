@@ -1,5 +1,6 @@
 const addItem = document.querySelector('.add');
 const list = document.querySelector('.todos');
+const searchInput = document.querySelector('.search input');
 
 const generateTemplate = organizer => {
     const html = `
@@ -28,4 +29,21 @@ list.addEventListener('click', e => {
     if(e.target.classList.contains('delete')){
         e.target.parentElement.remove();
     }
+});
+
+//filter function for items
+const filterItems = searchTerm => {
+    Array.from(list.children)
+        .filter((organizer) => !organizer.textContent.toLowerCase().includes(searchTerm))
+        .forEach((organizer) => organizer.classList.add('filtered'));
+
+    Array.from(list.children)
+        .filter((organizer) => organizer.textContent.toLowerCase().includes(searchTerm))
+        .forEach((organizer) => organizer.classList.remove('filtered'));        
+}
+
+// search items
+searchInput.addEventListener('keyup', () => {
+    const searchTerm = searchInput.value.trim();
+    filterItems(searchTerm);
 })
